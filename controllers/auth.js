@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { expressjwt: expressJwt } = require("express-jwt");
 
 exports.signup = (req, res) => {
-  const errors = validationResult(req);
+  const errors = validationResult(req.body);
 
   if (!errors.isEmpty()) {
     return res.status(422).json({
@@ -15,11 +15,12 @@ exports.signup = (req, res) => {
   const user = new User(req.body);
   user.save((err, user) => {
     if (err) {
+      console.log(err);
       return res.status(400).json({
         err: "NOT able to save user in DB",
       });
     }
-    res.json({
+    return res.status(200).json({
       name: user.name,
       email: user.email,
       id: user._id,
@@ -30,6 +31,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   const errors = validationResult(req);
   const { email, password } = req.body;
+  console.log(req.body);
 
   if (!errors.isEmpty()) {
     return res.status(422).json({
