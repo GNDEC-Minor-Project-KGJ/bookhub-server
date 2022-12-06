@@ -29,7 +29,7 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-  const errors = validationResult(req);
+  const errors = validationResult(req.body);
   const { email, password } = req.body;
   console.log(req.body);
 
